@@ -4,6 +4,7 @@ from httpx import Response
 from httpx import URL
 
 from .interfaces.dashboards_interface import DashBoardsInterface
+from .interfaces.folders_interface import FoldersInterface
 
 
 class ApiClient:
@@ -23,6 +24,11 @@ class ApiClient:
     def dashboards(self) -> DashBoardsInterface:
         dashboards_interface = DashBoardsInterface(http_client=self.__http_client)
         return dashboards_interface
+
+    @property
+    def folders(self) -> FoldersInterface:
+        folders_interface = FoldersInterface(http_client=self.__http_client)
+        return folders_interface
 
     @staticmethod
     async def __raise_on_4xx_5xx(response: Response):

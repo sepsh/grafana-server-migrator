@@ -4,6 +4,7 @@ from httpx import Response
 from httpx import URL
 
 from .interfaces.dashboards_interface import DashBoardsInterface
+from .interfaces.datasource_interface import DatasourceInterface
 from .interfaces.folders_interface import FoldersInterface
 from .interfaces.organizations_interface import OrganizationsInterface
 
@@ -30,6 +31,11 @@ class ApiClient:
     def folders(self) -> FoldersInterface:
         folders_interface = FoldersInterface(http_client=self.__http_client)
         return folders_interface
+
+    @property
+    def data_sources(self) -> DatasourceInterface:
+        data_sources_interface = DatasourceInterface(http_client=self.__http_client)
+        return data_sources_interface
 
     @property
     def organizations(self) -> OrganizationsInterface:

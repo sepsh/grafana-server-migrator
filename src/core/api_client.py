@@ -3,6 +3,8 @@ from httpx import Auth
 from httpx import Response
 from httpx import URL
 
+from .interfaces.dashboards_interface import DashBoardsInterface
+
 
 class ApiClient:
     def __init__(self, base_url: URL, auth: Auth, organization_id: int = 1):
@@ -17,7 +19,11 @@ class ApiClient:
             }
         )
 
+    @property
+    def dashboards(self) -> DashBoardsInterface:
+        dashboards_interface = DashBoardsInterface(http_client=self.__http_client)
+        return dashboards_interface
+
     @staticmethod
     async def __raise_on_4xx_5xx(response: Response):
         response.raise_for_status()
-

@@ -1,5 +1,6 @@
 from httpx import AsyncClient
 from httpx import Auth
+from httpx import Response
 from httpx import URL
 
 
@@ -12,3 +13,7 @@ class ApiClient:
                 "X-Grafana-Org-Id": str(organization_id)
             }
         )
+
+    @staticmethod
+    async def __raise_on_4xx_5xx(response: Response):
+        response.raise_for_status()

@@ -5,6 +5,7 @@ from httpx import URL
 
 from .interfaces.dashboards_interface import DashBoardsInterface
 from .interfaces.folders_interface import FoldersInterface
+from .interfaces.organizations_interface import OrganizationsInterface
 
 
 class ApiClient:
@@ -29,6 +30,11 @@ class ApiClient:
     def folders(self) -> FoldersInterface:
         folders_interface = FoldersInterface(http_client=self.__http_client)
         return folders_interface
+
+    @property
+    def organizations(self) -> OrganizationsInterface:
+        organizations_interface = OrganizationsInterface(http_client=self.__http_client)
+        return organizations_interface
 
     @staticmethod
     async def __raise_on_4xx_5xx(response: Response):

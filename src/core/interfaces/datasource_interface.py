@@ -56,5 +56,7 @@ class DatasourceInterface(BaseInterface):
         return await self.__datasource_factory(response=r)
 
     async def get_all_datasources(self) -> AsyncIterable[Datasource]:
-        # TODO: Should be implemented
-        pass
+        r = await self._http_client.get("/api/datasources/")
+        for datasource in r.json():
+            datasource_uid = datasource["uid"]
+            yield self.get_datasource_by_uid(datasource_uid)

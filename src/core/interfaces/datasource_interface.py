@@ -43,20 +43,20 @@ class DatasourceInterface(BaseInterface):
     async def __datasource_factory(response: Response) -> Datasource:
         return Datasource(data=response.json())
 
-    async def get_datasource_by_id(self, ds_id: int) -> Datasource:
-        r = await self._http_client.get(f"/api/datasources/{ds_id}")
+    async def get_datasource_by_id(self, datasource_id: int) -> Datasource:
+        r = await self._http_client.get(f"/api/datasources/{datasource_id}")
         return await self.__datasource_factory(response=r)
 
-    async def get_datasource_by_uid(self, ds_uid: str) -> Datasource:
-        r = await self._http_client.get(f"/api/datasources/uid/{ds_uid}/")
+    async def get_datasource_by_uid(self, datasource_uid: str) -> Datasource:
+        r = await self._http_client.get(f"/api/datasources/uid/{datasource_uid}/")
         return await self.__datasource_factory(response=r)
 
-    async def get_datasource_by_name(self, name: str) -> Datasource:
-        r = await self._http_client.get(f"/api/datasources/name/{name}")
+    async def get_datasource_by_name(self, datasource_name: str) -> Datasource:
+        r = await self._http_client.get(f"/api/datasources/name/{datasource_name}")
         return await self.__datasource_factory(response=r)
 
     async def get_all_datasources(self) -> AsyncIterable[Datasource]:
         r = await self._http_client.get("/api/datasources/")
         for datasource in r.json():
             datasource_uid = datasource["uid"]
-            yield await self.get_datasource_by_uid(datasource_uid)
+            yield await self.get_datasource_by_uid(datasource_uid=datasource_uid)

@@ -51,9 +51,9 @@ class DatasourceInterface(BaseInterface):
         r = await self._http_client.get(f"/api/datasources/uid/{ds_uid}/")
         return await self.__datasource_factory(response=r)
 
-    async def get_datasource_by_name(self) -> Datasource:
-        # TODO: Should be implemented
-        pass
+    async def get_datasource_by_name(self, name: str) -> Datasource:
+        r = await self._http_client.get(f"/api/datasources/name/{name}")
+        return await self.__datasource_factory(response=r)
 
     async def get_all_datasources(self) -> AsyncIterable[Datasource]:
         # TODO: Should be implemented

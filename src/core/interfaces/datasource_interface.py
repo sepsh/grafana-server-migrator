@@ -59,4 +59,4 @@ class DatasourceInterface(BaseInterface):
         r = await self._http_client.get("/api/datasources/")
         for datasource in r.json():
             datasource_uid = datasource["uid"]
-            yield self.get_datasource_by_uid(datasource_uid)
+            yield await self.get_datasource_by_uid(datasource_uid)

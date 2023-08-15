@@ -2,6 +2,7 @@ from httpx import AsyncClient
 from httpx import HTTPStatusError
 
 from .base_interface import BaseInterface
+from .datasource_interface import DatasourceInterface
 from .folders_interface import FoldersInterface
 
 
@@ -30,6 +31,11 @@ class Organization:
     def folders(self) -> FoldersInterface:
         folders_interface = FoldersInterface(http_client=self.__http_client)
         return folders_interface
+
+    @property
+    def datasources(self) -> DatasourceInterface:
+        datasource_interface = DatasourceInterface(http_client=self.__http_client)
+        return datasource_interface
 
 
 class OrganizationsInterface(BaseInterface):

@@ -3,10 +3,10 @@ from httpx import Auth
 from httpx import Response
 from httpx import URL
 
-from .interfaces.dashboards_interface import DashBoardsInterface
-from .interfaces.datasource_interface import DatasourceInterface
-from .interfaces.folders_interface import FoldersInterface
-from .interfaces.organizations_interface import OrganizationsInterface
+from src.core.api_client.interfaces.dashboards_interface import DashBoardsInterface
+from src.core.api_client.interfaces.datasource_interface import DatasourceInterface
+from src.core.api_client.interfaces.folders_interface import FoldersInterface
+from src.core.api_client.interfaces.organizations_interface import OrganizationsInterface
 
 
 class ApiClient:

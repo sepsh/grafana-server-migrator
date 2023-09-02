@@ -1,3 +1,6 @@
+# Exclude .idea directory used by JetBrains IDEs
+.idea
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

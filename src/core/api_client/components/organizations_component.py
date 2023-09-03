@@ -1,9 +1,9 @@
 from httpx import AsyncClient
 from httpx import HTTPStatusError
 
-from .base_interface import BaseInterface
-from .datasource_interface import DatasourceInterface
-from .folders_interface import FoldersInterface
+from .base_component import BaseComponent
+from .datasource_component import DatasourceComponent
+from .folders_component import FoldersComponent
 
 
 class Organization:
@@ -28,17 +28,17 @@ class Organization:
         return self.data["id"]
 
     @property
-    def folders(self) -> FoldersInterface:
-        folders_interface = FoldersInterface(http_client=self.__http_client)
+    def folders(self) -> FoldersComponent:
+        folders_interface = FoldersComponent(http_client=self.__http_client)
         return folders_interface
 
     @property
-    def datasources(self) -> DatasourceInterface:
-        datasource_interface = DatasourceInterface(http_client=self.__http_client)
+    def datasources(self) -> DatasourceComponent:
+        datasource_interface = DatasourceComponent(http_client=self.__http_client)
         return datasource_interface
 
 
-class OrganizationsInterface(BaseInterface):
+class OrganizationsComponent(BaseComponent):
     def __init__(self, http_client: AsyncClient):
         super().__init__(http_client)
 

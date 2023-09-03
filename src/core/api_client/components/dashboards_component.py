@@ -2,7 +2,7 @@ from typing import AsyncIterable
 
 from httpx import AsyncClient
 
-from .base_interface import BaseInterface
+from .base_component import BaseComponent
 
 
 class Dashboard:
@@ -69,7 +69,7 @@ class Dashboard:
         return striped_data
 
 
-class DashBoardsInterface(BaseInterface):
+class DashBoardsComponent(BaseComponent):
     def __init__(
             self,
             http_client: AsyncClient,

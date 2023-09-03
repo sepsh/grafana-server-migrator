@@ -3,8 +3,8 @@ from typing import AsyncIterable
 from httpx import AsyncClient
 from httpx import HTTPStatusError
 
-from .base_interface import BaseInterface
-from .dashboards_interface import DashBoardsInterface
+from .base_component import BaseComponent
+from .dashboards_component import DashBoardsComponent
 
 
 class Folder:
@@ -33,12 +33,12 @@ class Folder:
         return self.data["title"]
 
     @property
-    def dashboards(self) -> DashBoardsInterface:
-        dashboards_interface = DashBoardsInterface(http_client=self.__http_client, folder_id=self.folder_id)
+    def dashboards(self) -> DashBoardsComponent:
+        dashboards_interface = DashBoardsComponent(http_client=self.__http_client, folder_id=self.folder_id)
         return dashboards_interface
 
 
-class FoldersInterface(BaseInterface):
+class FoldersComponent(BaseComponent):
     def __init__(self, http_client: AsyncClient):
         super().__init__(http_client)
 

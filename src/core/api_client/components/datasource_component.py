@@ -3,7 +3,7 @@ from typing import AsyncIterable
 from httpx import AsyncClient
 from httpx import Response
 
-from .base_interface import BaseInterface
+from .base_component import BaseComponent
 
 
 class Datasource:
@@ -35,7 +35,7 @@ class Datasource:
         return self.data["orgId"]
 
 
-class DatasourceInterface(BaseInterface):
+class DatasourceComponent(BaseComponent):
     def __init__(self, http_client: AsyncClient):
         super().__init__(http_client)
 

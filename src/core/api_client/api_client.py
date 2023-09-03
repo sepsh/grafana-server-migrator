@@ -3,10 +3,10 @@ from httpx import Auth
 from httpx import Response
 from httpx import URL
 
-from src.core.api_client.interfaces.dashboards_interface import DashBoardsInterface
-from src.core.api_client.interfaces.datasource_interface import DatasourceInterface
-from src.core.api_client.interfaces.folders_interface import FoldersInterface
-from src.core.api_client.interfaces.organizations_interface import OrganizationsInterface
+from src.core.api_client.components.dashboards_component import DashBoardsComponent
+from src.core.api_client.components.datasource_component import DatasourceComponent
+from src.core.api_client.components.folders_component import FoldersComponent
+from src.core.api_client.components.organizations_component import OrganizationsComponent
 
 
 class ApiClient:
@@ -23,23 +23,23 @@ class ApiClient:
         )
 
     @property
-    def dashboards(self) -> DashBoardsInterface:
-        dashboards_interface = DashBoardsInterface(http_client=self.__http_client)
+    def dashboards(self) -> DashBoardsComponent:
+        dashboards_interface = DashBoardsComponent(http_client=self.__http_client)
         return dashboards_interface
 
     @property
-    def folders(self) -> FoldersInterface:
-        folders_interface = FoldersInterface(http_client=self.__http_client)
+    def folders(self) -> FoldersComponent:
+        folders_interface = FoldersComponent(http_client=self.__http_client)
         return folders_interface
 
     @property
-    def data_sources(self) -> DatasourceInterface:
-        data_sources_interface = DatasourceInterface(http_client=self.__http_client)
+    def data_sources(self) -> DatasourceComponent:
+        data_sources_interface = DatasourceComponent(http_client=self.__http_client)
         return data_sources_interface
 
     @property
-    def organizations(self) -> OrganizationsInterface:
-        organizations_interface = OrganizationsInterface(http_client=self.__http_client)
+    def organizations(self) -> OrganizationsComponent:
+        organizations_interface = OrganizationsComponent(http_client=self.__http_client)
         return organizations_interface
 
     @staticmethod

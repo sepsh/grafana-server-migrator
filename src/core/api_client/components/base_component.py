@@ -1,6 +1,11 @@
 from abc import ABC
 
 from httpx import AsyncClient
+from pydantic import BaseModel
+
+
+class BaseDataModel(BaseModel):
+    data: dict
 
 
 class BaseComponent(ABC):

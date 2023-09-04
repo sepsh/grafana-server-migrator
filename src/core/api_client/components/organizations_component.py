@@ -1,37 +1,39 @@
 from httpx import AsyncClient
 from httpx import HTTPStatusError
+from pydantic import computed_field
+from pydantic import ConfigDict
 
 from .base_component import BaseComponent
+from .base_component import BaseDataModel
 from .datasource_component import DatasourceComponent
 from .folders_component import FoldersComponent
 
 
-class Organization:
-    data: dict
+class Organization(BaseDataModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    # https://docs.pydantic.dev/2.3/errors/usage_errors/#schema-for-unknown-type
 
-    def __init__(self, data: dict, http_client: AsyncClient):
-        self.data = data
+    def __init__(self, http_client: AsyncClient, **kwargs):
+        super().__init__(**kwargs)
         self.__http_client = http_client
 
-    def __str__(self):
-        return str(self.name)
-
-    def __repr__(self):
-        return repr(self.data)
-
+    @computed_field
     @property
     def name(self) -> str:
         return self.data["name"]
 
+    @computed_field
     @property
     def org_id(self) -> int:
         return self.data["id"]
 
+    @computed_field
     @property
     def folders(self) -> FoldersComponent:
         folders_interface = FoldersComponent(http_client=self.__http_client)
         return folders_interface
 
+    @computed_field
     @property
     def datasources(self) -> DatasourceComponent:
         datasource_interface = DatasourceComponent(http_client=self.__http_client)

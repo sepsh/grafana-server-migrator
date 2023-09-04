@@ -2,36 +2,37 @@ from typing import AsyncIterable
 
 from httpx import AsyncClient
 from httpx import HTTPStatusError
+from pydantic import computed_field
+from pydantic import ConfigDict
 
-from .base_component import BaseComponent
+from .base_component import BaseComponent, BaseDataModel
 from .dashboards_component import DashBoardsComponent
 
 
-class Folder:
-    data: dict
+class Folder(BaseDataModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    # https://docs.pydantic.dev/2.3/errors/usage_errors/#schema-for-unknown-type
 
-    def __init__(self, data: dict, http_client: AsyncClient):
-        self.data = data
+    def __init__(self, http_client: AsyncClient, **kwargs) -> None:
+        super().__init__(**kwargs)
         self.__http_client = http_client
 
-    def __str__(self):
-        return str(self.title)
-
-    def __repr__(self):
-        return repr(self.data)
-
+    @computed_field
     @property
     def folder_id(self) -> int:
         return self.data["id"]
 
+    @computed_field
     @property
     def folder_uid(self) -> str:
         return self.data["uid"]
 
+    @computed_field
     @property
     def title(self) -> str:
         return self.data["title"]
 
+    @computed_field
     @property
     def dashboards(self) -> DashBoardsComponent:
         dashboards_interface = DashBoardsComponent(http_client=self.__http_client, folder_id=self.folder_id)
@@ -40,7 +41,7 @@ class Folder:
 
 class FoldersComponent(BaseComponent):
     def __init__(self, http_client: AsyncClient):
-        super().__init__(http_client)
+        super().__init__(http_client=http_client)
 
     async def get_all_folders(self) -> AsyncIterable[Folder]:
         # TODO: implement pagination
@@ -89,6 +90,7 @@ class FoldersComponent(BaseComponent):
                 json=json_payload,
                 headers=headers,
             )
+            # TODO: it might be better to return a call to self.get_folder_by_uid()
             return Folder(data=r.json(), http_client=self._http_client)
         except HTTPStatusError as err:
             if err.response.status_code == 412:

@@ -2,36 +2,30 @@ from typing import AsyncIterable
 
 from httpx import AsyncClient
 from httpx import Response
+from pydantic import computed_field
 
-from .base_component import BaseComponent
+from .base_component import BaseComponent, BaseDataModel
 
 
-class Datasource:
-    data: dict
-
-    def __init__(self, data: dict):
-        self.data = data
-
-    def __str__(self):
-        return str(self.name)
-
-    def __repr__(self):
-        return repr(self.data)
-
+class Datasource(BaseDataModel):
+    @computed_field
     @property
-    def datasource_id(self):
+    def datasource_id(self) -> dict:
         return self.data["id"]
 
+    @computed_field
     @property
-    def darasource_uid(self):
+    def darasource_uid(self) -> str:
         return self.data["uid"]
 
+    @computed_field
     @property
-    def name(self):
+    def name(self) -> str:
         return self.data["name"]
 
+    @computed_field
     @property
-    def organization_id(self):
+    def organization_id(self) -> str:
         return self.data["orgId"]
 
 

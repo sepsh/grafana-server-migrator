@@ -1,38 +1,33 @@
 from typing import AsyncIterable
 
 from httpx import AsyncClient
+from pydantic import computed_field
 
-from .base_component import BaseComponent
+from .base_component import BaseDataModel, BaseComponent
 
 
-class Dashboard:
-    data: dict
-
-    def __init__(self, data: dict):
-        self.data = data
-
-    def __str__(self):
-        return str(self.title)
-
-    def __repr__(self):
-        return repr(self.data)
-
+class Dashboard(BaseDataModel):
+    @computed_field
     @property
     def dashboard_uid(self) -> str:
         return self.data["dashboard"]["uid"]
 
+    @computed_field
     @property
     def folder_id(self) -> str:
         return self.data["meta"]["folderId"]
 
+    @computed_field
     @property
     def folder_uid(self) -> str:
         return self.data["meta"]["folderUid"]
 
+    @computed_field
     @property
     def title(self) -> str:
         return self.data["dashboard"]["title"]
 
+    @computed_field
     @property
     def striped(self) -> dict[str, dict]:
         # TODO: this function was made in hurry. most certainly needs a rewrite.

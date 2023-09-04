@@ -10,8 +10,8 @@ from .folders_component import FoldersComponent
 
 
 class Organization(BaseDataModel):
-    model_config = ConfigDict(arbitrary_types_allowed=True)
     # https://docs.pydantic.dev/2.3/errors/usage_errors/#schema-for-unknown-type
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     def __init__(self, http_client: AsyncClient, **kwargs):
         super().__init__(**kwargs)
@@ -69,16 +69,12 @@ class OrganizationsComponent(BaseComponent):
         return organization
 
     async def create_organization(self, org_name: str) -> Organization:
-        json_payload = {
-            "name": org_name
-        }
+        json_payload = {"name": org_name}
         try:
             r = await self._http_client.post(
                 url="/api/orgs/",
                 json=json_payload,
-                headers={
-                    "Content-Type": "application/json"
-                }
+                headers={"Content-Type": "application/json"},
             )
             return await self.get_organization_by_name(org_name=org_name)
         except HTTPStatusError as err:

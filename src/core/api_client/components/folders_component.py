@@ -10,8 +10,8 @@ from .dashboards_component import DashBoardsComponent
 
 
 class Folder(BaseDataModel):
-    model_config = ConfigDict(arbitrary_types_allowed=True)
     # https://docs.pydantic.dev/2.3/errors/usage_errors/#schema-for-unknown-type
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     def __init__(self, http_client: AsyncClient, **kwargs) -> None:
         super().__init__(**kwargs)
@@ -35,7 +35,9 @@ class Folder(BaseDataModel):
     @computed_field
     @property
     def dashboards(self) -> DashBoardsComponent:
-        dashboards_interface = DashBoardsComponent(http_client=self.__http_client, folder_id=self.folder_id)
+        dashboards_interface = DashBoardsComponent(
+            http_client=self.__http_client, folder_id=self.folder_id
+        )
         return dashboards_interface
 
 
@@ -55,15 +57,15 @@ class FoldersComponent(BaseComponent):
             yield await self.get_folder_by_uid(folder["uid"])
 
     async def get_folder_by_id(
-            self,
-            folder_id: int,
+        self,
+        folder_id: int,
     ) -> Folder:
         r = await self._http_client.get(f"/api/folders/id/{folder_id}")
         return Folder(data=r.json(), http_client=self._http_client)
 
     async def get_folder_by_uid(
-            self,
-            uid: str,
+        self,
+        uid: str,
     ) -> Folder:
         if uid == "":
             return await self.get_folder_by_id(0)
@@ -71,8 +73,8 @@ class FoldersComponent(BaseComponent):
         return Folder(data=r.json(), http_client=self._http_client)
 
     async def create_folder(
-            self,
-            folder: Folder,
+        self,
+        folder: Folder,
     ) -> Folder:
         if folder.folder_uid == "" or folder.folder_id == 0:
             return await self.get_folder_by_id(folder_id=0)

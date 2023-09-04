@@ -6,7 +6,9 @@ from httpx import URL
 from src.core.api_client.components.dashboards_component import DashBoardsComponent
 from src.core.api_client.components.datasource_component import DatasourceComponent
 from src.core.api_client.components.folders_component import FoldersComponent
-from src.core.api_client.components.organizations_component import OrganizationsComponent
+from src.core.api_client.components.organizations_component import (
+    OrganizationsComponent,
+)
 
 
 class ApiClient:
@@ -17,9 +19,7 @@ class ApiClient:
             event_hooks={
                 "response": [self.__raise_on_4xx_5xx],
             },
-            headers={
-                "X-Grafana-Org-Id": str(organization_id)
-            }
+            headers={"X-Grafana-Org-Id": str(organization_id)},
         )
 
     @property

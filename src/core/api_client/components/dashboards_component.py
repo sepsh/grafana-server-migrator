@@ -42,7 +42,9 @@ class Dashboard(BaseDataModel):
             "links",
             "version",
         ]
-        striped_data["dashboard"] = {k: v for (k, v) in data["dashboard"].items() if k not in unneeded_keys}
+        striped_data["dashboard"] = {
+            k: v for (k, v) in data["dashboard"].items() if k not in unneeded_keys
+        }
 
         # Filter keys to be generated again by grafana
         unneeded_keys = [
@@ -60,22 +62,24 @@ class Dashboard(BaseDataModel):
             "publicDashboardUid",
             "publicDashboardEnabled",
         ]
-        striped_data["meta"] = {k: v for (k, v) in data["meta"].items() if k not in unneeded_keys}
+        striped_data["meta"] = {
+            k: v for (k, v) in data["meta"].items() if k not in unneeded_keys
+        }
         return striped_data
 
 
 class DashBoardsComponent(BaseComponent):
     def __init__(
-            self,
-            http_client: AsyncClient,
-            folder_id: int | None = None,
+        self,
+        http_client: AsyncClient,
+        folder_id: int | None = None,
     ):
         super().__init__(http_client)
         self.folder_id = folder_id
 
     async def get_all_dashboards(
-            self,
-            filter_folder_id: list[str | int] | None = None,
+        self,
+        filter_folder_id: list[str | int] | None = None,
     ) -> AsyncIterable[Dashboard]:
         if filter_folder_id is None:
             if self.folder_id is None:
@@ -88,16 +92,16 @@ class DashBoardsComponent(BaseComponent):
             yield await self.get_dashboard(uid=dashboard["uid"])
 
     async def get_dashboard(
-            self,
-            uid: str,
+        self,
+        uid: str,
     ) -> Dashboard:
         r = await self._http_client.get(f"/api/dashboards/uid/{uid}")
         return Dashboard(data=r.json())
 
     async def create_dashboard(
-            self,
-            dashboard: Dashboard,
-            folder_uid: str | None = None,
+        self,
+        dashboard: Dashboard,
+        folder_uid: str | None = None,
     ) -> Dashboard:
         json_payload = {
             **dashboard.striped,

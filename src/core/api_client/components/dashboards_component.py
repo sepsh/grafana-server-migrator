@@ -38,7 +38,6 @@ class Dashboard(BaseDataModel):
         # Filter keys to be generated again by grafana
         unneeded_keys = [
             "id",
-            # "uid",
             "links",
             "version",
         ]

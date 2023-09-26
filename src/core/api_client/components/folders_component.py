@@ -74,13 +74,16 @@ class FoldersComponent(BaseComponent):
 
     async def create_folder(
         self,
-        folder: Folder,
+        *,
+        folder_uid: str | None = None,
+        folder_title: str,
     ) -> Folder:
-        if folder.folder_uid == "" or folder.folder_id == 0:
-            return await self.get_folder_by_id(folder_id=0)
+        # TODO: Add support for nested folders
+        if folder_uid == "":
+            return await self.get_folder_by_uid(folder_uid)
         json_payload = {
-            "uid": folder.folder_uid,
-            "title": folder.title,
+            "uid": folder_uid,
+            "title": folder_title,
         }
         headers = {
             **self._http_client.headers,
@@ -98,6 +101,6 @@ class FoldersComponent(BaseComponent):
             if err.response.status_code == 412:
                 # TODO: Forward an implicit call to update_folder
                 # For now, we are just ignore the updates and forward call to get_folder_by_uid
-                return await self.get_folder_by_uid(folder.folder_uid)
+                return await self.get_folder_by_uid(folder_uid)
             else:
                 err.response.raise_for_status()

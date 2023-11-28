@@ -12,14 +12,17 @@ from src.core.api_client.components.organizations_component import (
 
 
 class ApiClient:
-    def __init__(self, base_url: URL, auth: Auth, organization_id: int = 1):
+    def __init__(self, base_url: URL, auth: Auth | None = None, organization_id: int = 1, headers: dict[str, str] | None = None):
+        headers = []
+        if headers:
+            headers.extend(headers)
         self.__http_client = AsyncClient(
             base_url=base_url,
             auth=auth,
             event_hooks={
                 "response": [self.__raise_on_4xx_5xx],
             },
-            headers={"X-Grafana-Org-Id": str(organization_id)},
+            headers={**headers, "X-Grafana-Org-Id": str(organization_id)},
         )
 
     @property

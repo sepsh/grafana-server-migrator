@@ -13,9 +13,8 @@ from src.core.api_client.components.organizations_component import (
 
 class ApiClient:
     def __init__(self, base_url: URL, auth: Auth | None = None, organization_id: int = 1, headers: dict[str, str] | None = None):
-        headers = []
-        if headers:
-            headers.extend(headers)
+        if not headers:
+            headers = {}
         self.__http_client = AsyncClient(
             base_url=base_url,
             auth=auth,
